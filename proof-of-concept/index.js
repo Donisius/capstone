@@ -4,11 +4,50 @@ const canvasCtx = canvasElement.getContext('2d');
 const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
 const grid = new LandmarkGrid(landmarkContainer);
 
-function onResults(results) {
+const emptyCoord = { x: 0, y: 0, z: 0 };
+
+const getDistance = (coord1, coord2 = emptyCoord) => (
+  Math.sqrt(
+    (coord1.x - coord2.x) ** 2 +
+    (coord1.y - coord2.y) ** 2 +
+    (coord1.z - coord2.z) ** 2
+  )
+);
+
+const dotProduct = (coord1, coord2) => coord1.x * coord2.x + coord1.y * coord2.y + coord1.z * coord2.z;
+
+const radToDegree = (angle) => angle * 180 / Math.PI;
+
+const isLeaningForward = (coords) => {
+  const rightShoulder = coords[12];
+  const rightHip = coords[24];
+
+  const hipToShoulderVector = { x: rightShoulder.x - rightHip.x, y: rightShoulder.y - rightHip.y, z: rightShoulder.z - rightHip.z };
+  const hipWithShoulderY = { ...rightHip, y: rightShoulder.y };
+
+  const angle = Math.acos(dotProduct(hipToShoulderVector, hipWithShoulderY) / (getDistance(hipToShoulderVector) * getDistance(hipWithShoulderY)));
+  console.log(radToDegree(angle))
+  return radToDegree(angle) <= 120;
+}
+
+const constraints = {
+  isLeaningForward
+}
+
+const messages = document.getElementById('messages');
+
+const onResults = (results) => {
+  messages.innerHTML = '';
+
   if (!results.poseLandmarks) {
     grid.updateLandmarks([]);
     return;
   }
+
+  if (constraints.isLeaningForward(results.poseLandmarks)) {
+    //do something
+    messages.innerHTML = 'You are leaning forward too much';
+  };
 
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
@@ -51,6 +90,7 @@ pose.setOptions({
   minDetectionConfidence: 0.5,
   minTrackingConfidence: 0.5
 });
+
 pose.onResults(onResults);
 
 const camera = new Camera(videoElement, {
@@ -60,4 +100,5 @@ const camera = new Camera(videoElement, {
   width: 1280,
   height: 720
 });
+
 camera.start();
