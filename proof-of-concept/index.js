@@ -26,7 +26,6 @@ const isLeaningForward = (coords) => {
   const hipWithShoulderY = { ...rightHip, y: rightShoulder.y };
 
   const angle = Math.acos(dotProduct(hipToShoulderVector, hipWithShoulderY) / (getDistance(hipToShoulderVector) * getDistance(hipWithShoulderY)));
-  console.log(radToDegree(angle))
   return radToDegree(angle) <= 120;
 }
 
