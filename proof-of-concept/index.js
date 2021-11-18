@@ -4,6 +4,8 @@ const canvasCtx = canvasElement.getContext('2d');
 const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
 const grid = new LandmarkGrid(landmarkContainer);
 
+const shoulderExCounter = 0;
+
 function onResults(results) {
   if (!results.poseLandmarks) {
     grid.updateLandmarks([]);
@@ -37,6 +39,32 @@ function onResults(results) {
   canvasCtx.restore();
 
   grid.updateLandmarks(results.poseWorldLandmarks);
+  
+  checkForm(results);
+  
+}
+
+
+function checkForm(results) {
+  let mhands = (results.poseLandmarks[15].y - results.poseLandmarks[16].y)/(results.poseLandmarks[15].x - results.poseLandmarks[16].x);
+  let melbows = (results.poseLandmarks[13].y - results.poseLandmarks[14].y)/(results.poseLandmarks[13].x - results.poseLandmarks[14].x);
+  let mshoulders = (results.poseLandmarks[11].y - results.poseLandmarks[12].y)/(results.poseLandmarks[11].x - results.poseLandmarks[12].x);
+
+  // console.log("mhands: " + mhands);
+  // console.log("melbows: " + melbows);
+  // console.log("mshoulders: " + mshoulders);
+
+  let linCheckHands = Math.abs(mhands) < 0.2;
+  let linCheckElbows = Math.abs(melbows) < 0.2;
+  let linCheckShoulders = Math.abs(mshoulders) < 0.2;
+
+  if (linCheckElbows && linCheckHands && linCheckShoulders) {
+    console.log("Form is correct");
+  } else {
+    console.log("Incorrect Form");
+  }
+  // console.log(i.toString() + " : " + results.poseLandmarks[i].y);
+
 }
 
 const pose = new Pose({locateFile: (file) => {
