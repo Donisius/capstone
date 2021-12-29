@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Tab, Tabs } from 'carbon-components-react';
 
 import { ConstraintsEditor } from './components/ConstraintsEditor/ConstraintsEditor';
-import './App.css';
 import { Player } from './components/Player/Player';
+import './App.css';
 
 const App = () => {
   const [constraints, setConstraints] = useState([]);

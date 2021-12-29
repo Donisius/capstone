@@ -19,11 +19,10 @@ import {
   TableToolbarSearch,
 } from 'carbon-components-react';
 import { Delete16 as Delete, Edit16 as Edit } from '@carbon/icons-react';
-import './ConstraintsEditor.css';
+
 import { ConstraintsModal } from './ConstraintsModal';
 import { SvgEmptystateDefaultIcon } from '../../static/EmptyStateDefaultIcon';
-
-const items = Object.keys(POSE_LANDMARKS);
+import './ConstraintsEditor.css';
 
 const headers = [
   {

@@ -15,6 +15,7 @@ import {
   Save16 as Save,
   Add16 as Add,
 } from '@carbon/icons-react';
+
 import './ConstraintsModal.css';
 
 const items = Object.keys(POSE_LANDMARKS);
@@ -109,22 +110,26 @@ export const ConstraintsModal = ({
         />
         {restrictions.map((restriction, i) => (
           <div className='restriction' key={`restriction-${counter++}`}>
-            <ComboBox
-              light
-              onChange={(ev) => {
-                setRestrictions(
-                  restrictions.map((r, j) =>
-                    i === j ? { ...restriction, landmark1: ev.selectedItem } : r
-                  )
-                );
-              }}
-              selectedItem={restrictions[i].landmark1}
-              id={`combobox-${counter++}`}
-              items={items}
-              placeholder='Landmark 1'
-            />
+            <div style={{ marginRight: '0.3rem' }}>
+              <ComboBox
+                light
+                onChange={(ev) => {
+                  setRestrictions(
+                    restrictions.map((r, j) =>
+                      i === j
+                        ? { ...restriction, landmark1: ev.selectedItem }
+                        : r
+                    )
+                  );
+                }}
+                selectedItem={restrictions[i].landmark1}
+                id={`combobox-${counter++}`}
+                items={items}
+                placeholder='Landmark 1'
+              />
+            </div>
             <Dropdown
-              style={{ width: '15rem' }}
+              style={{ width: '15rem', marginRight: '0.3rem' }}
               id={`dropdown-${counter++}`}
               onChange={(ev) => {
                 setRestrictions(
@@ -137,21 +142,39 @@ export const ConstraintsModal = ({
               selectedItem={restrictions[i].operation}
               items={['distance from', 'angle formed with']}
             ></Dropdown>
-            <ComboBox
-              light
+            <div style={{ marginRight: '0.3rem' }}>
+              <ComboBox
+                light
+                style={{ marginRight: '0.3rem' }}
+                onChange={(ev) => {
+                  setRestrictions(
+                    restrictions.map((r, j) =>
+                      i === j
+                        ? { ...restriction, landmark2: ev.selectedItem }
+                        : r
+                    )
+                  );
+                }}
+                selectedItem={restrictions[i].landmark2}
+                id={`combobox-${counter++}`}
+                items={items}
+                placeholder='Landmark 2'
+              />
+            </div>
+            <Dropdown
+              style={{ width: '6rem', marginRight: '0.3rem' }}
+              id={`dropdown-${counter++}`}
               onChange={(ev) => {
                 setRestrictions(
                   restrictions.map((r, j) =>
-                    i === j ? { ...restriction, landmark2: ev.selectedItem } : r
+                    i === j ? { ...restriction, equality: ev.selectedItem } : r
                   )
                 );
               }}
-              selectedItem={restrictions[i].landmark2}
-              id={`combobox-${counter++}`}
-              items={items}
-              placeholder='Landmark 2'
-            />
-            <div className='equal-sign'>=</div>
+              placeholder='Equality'
+              selectedItem={restrictions[i].equality}
+              items={['>', '>=', '<', '<=', '=']}
+            ></Dropdown>
             <TextInput
               placeholder='Result'
               onBlur={(ev) => {

@@ -3,6 +3,8 @@ import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Toggle } from 'carbon-components-react';
+
+import { areCoordsValid } from '../../utils/areCoordsValid';
 import './Player.css';
 
 const pose = new Pose({
@@ -27,7 +29,7 @@ let DISPLAY_SETTINGS = {
 
 // Used to process results from `Pose` and display results
 // on the given `canvasElement`.
-const onResults = (results, canvasElement) => {
+const onResults = (results, constraints, canvasElement) => {
   if (!results.poseLandmarks) {
     return;
   }
@@ -52,14 +54,20 @@ const onResults = (results, canvasElement) => {
 
   canvasCtx.globalCompositeOperation = 'source-over';
   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-    color: '#00FF00',
+    color: '#3ddbd9',
     lineWidth: 3,
   });
 
   drawLandmarks(canvasCtx, results.poseLandmarks, {
-    color: '#FF0000',
+    color: '#fa4d56',
     lineWidth: 1.5,
   });
+
+  if (!areCoordsValid(results.poseLandmarks, constraints)) {
+    canvasCtx.strokeStyle = '#da1e28';
+    canvasCtx.lineWidth = 8;
+    canvasCtx.strokeRect(0, 0, canvasElement.width, canvasElement.height);
+  }
 
   canvasCtx.restore();
 };
@@ -89,7 +97,7 @@ export const Player = ({ constraints }) => {
     getUserMedia();
 
     pose.onResults((results) => {
-      onResults(results, canvasRef.current);
+      onResults(results, constraints, canvasRef.current);
     });
 
     const cam = new Camera(videoRef.current, {
@@ -103,8 +111,8 @@ export const Player = ({ constraints }) => {
     setCamera(cam);
 
     return () => {
-      camera.close();
-      pose.close();
+      camera?.stop();
+      pose?.close();
     };
   }, []);
 
@@ -123,6 +131,17 @@ export const Player = ({ constraints }) => {
         .clearRect(0, 0, DISPLAY_SETTINGS.width, DISPLAY_SETTINGS.height);
     }
   }, [isTracking]);
+
+  useEffect(() => {
+    if (!pose) {
+      return;
+    }
+
+    pose.reset();
+    pose.onResults((results) => {
+      onResults(results, constraints, canvasRef.current);
+    });
+  }, [constraints]);
 
   return (
     <div className='wrapper'>
