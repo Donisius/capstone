@@ -27,7 +27,7 @@ const isLeaningForward = (coords) => {
 
   const angle = Math.acos(dotProduct(hipToShoulderVector, hipWithShoulderY) / (getDistance(hipToShoulderVector) * getDistance(hipWithShoulderY)));
   console.log(radToDegree(angle))
-  return radToDegree(angle) <= 120;
+  return radToDegree(angle) <= 115;
 }
 
 const constraints = {
@@ -40,7 +40,7 @@ const onResults = (results) => {
   messages.innerHTML = '';
 
   if (!results.poseLandmarks) {
-    grid.updateLandmarks([]);
+    // grid.updateLandmarks([]);
     return;
   }
 
@@ -75,7 +75,7 @@ const onResults = (results) => {
 
   canvasCtx.restore();
 
-  grid.updateLandmarks(results.poseWorldLandmarks);
+  // grid.updateLandmarks(results.poseWorldLandmarks);
 }
 
 const pose = new Pose({locateFile: (file) => {
