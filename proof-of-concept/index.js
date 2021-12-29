@@ -35,7 +35,6 @@ const isLeaningForward = (coords) => {
     dotProduct(hipToShoulderVector, hipWithShoulderY) /
       (getDistance(hipToShoulderVector) * getDistance(hipWithShoulderY))
   );
-  console.log(radToDegree(angle));
   return radToDegree(angle) <= 115;
 };
 
