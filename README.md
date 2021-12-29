@@ -12,6 +12,8 @@ Start a development server for spotter by running `npm run start:spotter`
 
 Create a new branch
 
+`git pull origin main`
+
 Make your changes
 
 `git add .`
