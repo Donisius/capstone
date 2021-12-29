@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { POSE_LANDMARKS } from '@mediapipe/pose';
 import {
   Button,
@@ -9,8 +9,6 @@ import {
   ModalBody,
   TextInput,
   Dropdown,
-  NumberInput,
-  TextArea,
 } from 'carbon-components-react';
 import {
   Delete16 as Delete,

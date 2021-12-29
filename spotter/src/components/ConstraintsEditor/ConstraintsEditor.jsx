@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { POSE_LANDMARKS } from '@mediapipe/pose';
 import {
   Button,
@@ -18,12 +18,7 @@ import {
   TableToolbarContent,
   TableToolbarSearch,
 } from 'carbon-components-react';
-import {
-  Delete16 as Delete,
-  Save16 as Save,
-  Add16 as Add,
-  Edit16 as Edit,
-} from '@carbon/icons-react';
+import { Delete16 as Delete, Edit16 as Edit } from '@carbon/icons-react';
 import './ConstraintsEditor.css';
 import { ConstraintsModal } from './ConstraintsModal';
 import { SvgEmptystateDefaultIcon } from '../../static/EmptyStateDefaultIcon';
