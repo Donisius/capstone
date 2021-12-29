@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Tab, Tabs } from 'carbon-components-react';
 
 import { ConstraintsEditor } from './components/ConstraintsEditor/ConstraintsEditor';
-import { Player } from './components/Player/Player';
+import { MovementTracker } from './components/MovementTracker/MovementTracker';
 import './App.css';
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
       <h1 className='title'>Spotter</h1>
       <Tabs style={{ width: 'auto' }}>
         <Tab id='tracking' label='Track movements'>
-          <Player constraints={constraints}></Player>
+          <MovementTracker constraints={constraints}></MovementTracker>
         </Tab>
         <Tab id='constraints-editor' label='Edit constraints'>
           <ConstraintsEditor

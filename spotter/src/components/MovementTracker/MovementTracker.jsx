@@ -5,7 +5,7 @@ import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Toggle } from 'carbon-components-react';
 
 import { areCoordsValid } from '../../utils/areCoordsValid';
-import './Player.css';
+import './MovementTracker.css';
 
 const pose = new Pose({
   locateFile: (file) => {
@@ -72,7 +72,7 @@ const onResults = (results, constraints, canvasElement) => {
   canvasCtx.restore();
 };
 
-export const Player = ({ constraints }) => {
+export const MovementTracker = ({ constraints }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [camera, setCamera] = useState(null);
