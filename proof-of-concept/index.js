@@ -1,8 +1,8 @@
-const videoElement = document.getElementsByClassName("input_video")[0];
-const canvasElement = document.getElementsByClassName("output_canvas")[0];
-const canvasCtx = canvasElement.getContext("2d");
+const videoElement = document.getElementsByClassName('input_video')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const canvasCtx = canvasElement.getContext('2d');
 const landmarkContainer = document.getElementsByClassName(
-  "landmark-grid-container"
+  'landmark-grid-container'
 )[0];
 const grid = new LandmarkGrid(landmarkContainer);
 
@@ -43,10 +43,10 @@ const constraints = {
   isLeaningForward,
 };
 
-const messages = document.getElementById("messages");
+const messages = document.getElementById('messages');
 
 const onResults = (results) => {
-  messages.innerHTML = "";
+  messages.innerHTML = '';
 
   if (!results.poseLandmarks) {
     // grid.updateLandmarks([]);
@@ -55,17 +55,17 @@ const onResults = (results) => {
 
   if (constraints.isLeaningForward(results.poseLandmarks)) {
     //do something
-    messages.innerHTML = "You are leaning forward too much";
+    messages.innerHTML = 'You are leaning forward too much';
   }
 
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
   // Only overwrite existing pixels.
-  canvasCtx.globalCompositeOperation = "source-in";
+  canvasCtx.globalCompositeOperation = 'source-in';
 
   // Only overwrite missing pixels.
-  canvasCtx.globalCompositeOperation = "destination-atop";
+  canvasCtx.globalCompositeOperation = 'destination-atop';
   canvasCtx.drawImage(
     results.image,
     0,
@@ -74,14 +74,14 @@ const onResults = (results) => {
     canvasElement.height
   );
 
-  canvasCtx.globalCompositeOperation = "source-over";
+  canvasCtx.globalCompositeOperation = 'source-over';
   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-    color: "#00FF00",
+    color: '#00FF00',
     lineWidth: 4,
   });
 
   drawLandmarks(canvasCtx, results.poseLandmarks, {
-    color: "#FF0000",
+    color: '#FF0000',
     lineWidth: 2,
   });
 

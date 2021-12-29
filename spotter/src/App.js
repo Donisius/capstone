@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
-import { Camera } from "@mediapipe/camera_utils";
-import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
-import { Toggle } from "carbon-components-react";
-import "./App.css";
+import { useEffect, useRef, useState } from 'react';
+import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose';
+import { Camera } from '@mediapipe/camera_utils';
+import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
+import { Toggle } from 'carbon-components-react';
+import './App.css';
 
 const pose = new Pose({
   locateFile: (file) => {
@@ -32,16 +32,16 @@ const onResults = (results, canvasElement) => {
     return;
   }
 
-  const canvasCtx = canvasElement.getContext("2d");
+  const canvasCtx = canvasElement.getContext('2d');
 
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
   // Only overwrite existing pixels.
-  canvasCtx.globalCompositeOperation = "source-in";
+  canvasCtx.globalCompositeOperation = 'source-in';
 
   // Only overwrite missing pixels.
-  canvasCtx.globalCompositeOperation = "destination-atop";
+  canvasCtx.globalCompositeOperation = 'destination-atop';
   canvasCtx.drawImage(
     results.image,
     0,
@@ -50,14 +50,14 @@ const onResults = (results, canvasElement) => {
     canvasElement.height
   );
 
-  canvasCtx.globalCompositeOperation = "source-over";
+  canvasCtx.globalCompositeOperation = 'source-over';
   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-    color: "#00FF00",
+    color: '#00FF00',
     lineWidth: 3,
   });
 
   drawLandmarks(canvasCtx, results.poseLandmarks, {
-    color: "#FF0000",
+    color: '#FF0000',
     lineWidth: 1.5,
   });
 
@@ -115,32 +115,32 @@ const App = () => {
     camera.stop();
     // Reset canvas.
     canvasRef.current
-      .getContext("2d")
+      .getContext('2d')
       .clearRect(0, 0, DISPLAY_SETTINGS.width, DISPLAY_SETTINGS.height);
   };
 
   return (
-    <div className="wrapper">
-      <h1 className="title">Spotter</h1>
+    <div className='wrapper'>
+      <h1 className='title'>Spotter</h1>
       <Toggle
-        className="tracking-toggle"
-        labelText="Tracking"
-        size="md"
-        labelA="Off"
-        labelB="On"
-        id="tracking-toggle"
+        className='tracking-toggle'
+        labelText='Tracking'
+        size='md'
+        labelA='Off'
+        labelB='On'
+        id='tracking-toggle'
         onChange={(ev) => (ev.target.checked ? start() : stop())}
       ></Toggle>
       <video
         style={{
-          display: "none",
+          display: 'none',
           height: DISPLAY_SETTINGS.height,
           width: DISPLAY_SETTINGS.width,
         }}
         ref={videoRef}
       ></video>
       <canvas
-        className="output-canvas"
+        className='output-canvas'
         ref={canvasRef}
         style={{
           height: DISPLAY_SETTINGS.height,
