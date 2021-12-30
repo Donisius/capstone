@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start:spotter": "cd spotter && npm start",
+    "format": "npx prettier --write .",
+    "install:all": "concurrently npm:install:spotter npm:install:root",
+    "install:root": "npm i",
+    "install:spotter": "cd spotter && npm i",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "devDependencies": {
+    "concurrently": "^6.5.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.4",
+    "prettier": "2.5.1"
+  }
+}
