@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
-import { Toggle } from 'carbon-components-react';
+import { Toggle, Loading } from 'carbon-components-react';
 
 import { areCoordsValid } from '../../utils/areCoordsValid';
 import './MovementTracker.css';
@@ -77,6 +77,7 @@ export const MovementTracker = ({ constraints }) => {
   const canvasRef = useRef(null);
   const [camera, setCamera] = useState(null);
   const [isTracking, setIsTracking] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // This runs when this component initializes.
   useEffect(() => {
@@ -89,6 +90,7 @@ export const MovementTracker = ({ constraints }) => {
         canvasRef.current.width = DISPLAY_SETTINGS.width;
         canvasRef.current.height = DISPLAY_SETTINGS.height;
         videoRef.current.srcObject = stream;
+        stream.getTracks()[0].stop();
       } catch (err) {
         console.log(err);
       }
@@ -121,14 +123,19 @@ export const MovementTracker = ({ constraints }) => {
       return;
     }
 
-    if (isTracking) {
-      camera.start();
+    if (isTracking && !isLoading) {
+      setIsLoading(true);
+      camera.start().then(() => {
+        setIsLoading(false);
+      });
     } else {
-      camera.stop();
-      // Reset canvas.
-      canvasRef.current
-        .getContext('2d')
-        .clearRect(0, 0, DISPLAY_SETTINGS.width, DISPLAY_SETTINGS.height);
+      setTimeout(() => {
+        camera.stop();
+        // Reset canvas.
+        canvasRef.current
+          .getContext('2d')
+          .clearRect(0, 0, DISPLAY_SETTINGS.width, DISPLAY_SETTINGS.height);
+      }, 1000);
     }
   }, [isTracking]);
 
@@ -155,7 +162,12 @@ export const MovementTracker = ({ constraints }) => {
         onChange={(ev) => {
           setIsTracking(ev.target.checked);
         }}
-      ></Toggle>
+      />
+      <Loading
+        withOverlay={false}
+        active={isLoading}
+        style={{ position: 'absolute' }}
+      />
       <video
         style={{
           display: 'none',

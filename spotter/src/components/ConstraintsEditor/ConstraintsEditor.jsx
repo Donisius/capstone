@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { POSE_LANDMARKS } from '@mediapipe/pose';
 import {
   Button,
   DataTable,
@@ -42,10 +41,6 @@ const headers = [
 export const ConstraintsEditor = ({ constraints, setConstraints }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedConstraint, setSelectedConstraint] = useState(null);
-
-  const batchActionClick = (selectedRows) => {
-    // console.log(selectedRows);
-  };
 
   return (
     <>
@@ -106,7 +101,6 @@ export const ConstraintsEditor = ({ constraints, setConstraints }) => {
                         batchActionProps.shouldShowBatchActions ? 0 : -1
                       }
                       renderIcon={Delete}
-                      onClick={batchActionClick(selectedRows)}
                     >
                       Delete
                     </TableBatchAction>
