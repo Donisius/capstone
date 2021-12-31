@@ -18,9 +18,9 @@ const getDistance = (coord1, coord2 = emptyCoord) =>
 const dotProduct = (coord1, coord2) =>
   coord1.x * coord2.x + coord1.y * coord2.y + coord1.z * coord2.z;
 
-const radToDegree = (angle) => (angle * 180) / Math.PI;
+const radToDegree = angle => (angle * 180) / Math.PI;
 
-const isLeaningForward = (coords) => {
+const isLeaningForward = coords => {
   const rightShoulder = coords[12];
   const rightHip = coords[24];
 
@@ -44,7 +44,7 @@ const constraints = {
 
 const messages = document.getElementById('messages');
 
-const onResults = (results) => {
+const onResults = results => {
   messages.innerHTML = '';
 
   if (!results.poseLandmarks) {
@@ -90,7 +90,7 @@ const onResults = (results) => {
 };
 
 const pose = new Pose({
-  locateFile: (file) => {
+  locateFile: file => {
     return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
   },
 });

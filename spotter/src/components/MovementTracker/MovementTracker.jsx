@@ -8,7 +8,7 @@ import { areCoordsValid } from '../../utils/areCoordsValid';
 import './MovementTracker.css';
 
 const pose = new Pose({
-  locateFile: (file) => {
+  locateFile: file => {
     return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
   },
 });
@@ -98,7 +98,7 @@ export const MovementTracker = ({ constraints }) => {
 
     getUserMedia();
 
-    pose.onResults((results) => {
+    pose.onResults(results => {
       onResults(results, constraints, canvasRef.current);
     });
 
@@ -145,7 +145,7 @@ export const MovementTracker = ({ constraints }) => {
     }
 
     pose.reset();
-    pose.onResults((results) => {
+    pose.onResults(results => {
       onResults(results, constraints, canvasRef.current);
     });
   }, [constraints]);
@@ -159,7 +159,7 @@ export const MovementTracker = ({ constraints }) => {
         labelA='Off'
         labelB='On'
         id='tracking-toggle'
-        onChange={(ev) => {
+        onChange={ev => {
           setIsTracking(ev.target.checked);
         }}
       />
@@ -174,16 +174,14 @@ export const MovementTracker = ({ constraints }) => {
           height: DISPLAY_SETTINGS.height,
           width: DISPLAY_SETTINGS.width,
         }}
-        ref={videoRef}
-      ></video>
+        ref={videoRef}></video>
       <canvas
         className='output-canvas'
         ref={canvasRef}
         style={{
           height: DISPLAY_SETTINGS.height,
           width: DISPLAY_SETTINGS.width,
-        }}
-      ></canvas>
+        }}></canvas>
     </div>
   );
 };

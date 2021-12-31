@@ -50,11 +50,10 @@ export const ConstraintsEditor = ({ constraints, setConstraints }) => {
         constraint={selectedConstraint}
         constraints={constraints}
         setConstraints={setConstraints}
-        setSelectedConstraint={setSelectedConstraint}
-      ></ConstraintsModal>
+        setSelectedConstraint={setSelectedConstraint}></ConstraintsModal>
       <div className='wrapper'>
         <DataTable
-          rows={constraints.map((constraint) => ({
+          rows={constraints.map(constraint => ({
             id: constraint.exercise,
             exercise: constraint.exercise,
             dateAdded: constraint.dateAdded,
@@ -71,8 +70,7 @@ export const ConstraintsEditor = ({ constraints, setConstraints }) => {
               />
             ),
           }))}
-          headers={headers}
-        >
+          headers={headers}>
           {({
             rows,
             headers,
@@ -92,22 +90,19 @@ export const ConstraintsEditor = ({ constraints, setConstraints }) => {
               <TableContainer
                 style={{ width: '100%' }}
                 title='Constraints'
-                {...getTableContainerProps()}
-              >
+                {...getTableContainerProps()}>
                 <TableToolbar {...getToolbarProps()}>
                   <TableBatchActions {...batchActionProps}>
                     <TableBatchAction
                       tabIndex={
                         batchActionProps.shouldShowBatchActions ? 0 : -1
                       }
-                      renderIcon={Delete}
-                    >
+                      renderIcon={Delete}>
                       Delete
                     </TableBatchAction>
                   </TableBatchActions>
                   <TableToolbarContent
-                    aria-hidden={batchActionProps.shouldShowBatchActions}
-                  >
+                    aria-hidden={batchActionProps.shouldShowBatchActions}>
                     <TableToolbarSearch
                       persistent={true}
                       tabIndex={
@@ -123,8 +118,7 @@ export const ConstraintsEditor = ({ constraints, setConstraints }) => {
                       kind='primary'
                       onClick={() => {
                         setIsModalOpen(true);
-                      }}
-                    >
+                      }}>
                       Add new constraint
                     </Button>
                   </TableToolbarContent>
@@ -145,7 +139,7 @@ export const ConstraintsEditor = ({ constraints, setConstraints }) => {
                       rows.map((row, i) => (
                         <TableRow key={i} {...getRowProps({ row })}>
                           <TableSelectRow {...getSelectionProps({ row })} />
-                          {row.cells.map((cell) => (
+                          {row.cells.map(cell => (
                             <TableCell key={cell.id}>{cell.value}</TableCell>
                           ))}
                         </TableRow>

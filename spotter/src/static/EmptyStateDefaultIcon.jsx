@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const SvgEmptystateDefaultIcon = (props) => {
+export const SvgEmptystateDefaultIcon = props => {
   const id = 'defaultIcon';
   return (
     <svg width={80} height={80} {...props}>
@@ -10,8 +10,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='34.928%'
           x2='55.959%'
           y2='57.808%'
-          id={`emptystate-Default-icon_svg__a-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__a-${id}`}>
           <stop stopOpacity={0.04} offset='0%' />
           <stop stopOpacity={0.04} offset='100%' />
         </linearGradient>
@@ -20,8 +19,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='77.587%'
           x2='101.194%'
           y2='37.496%'
-          id={`emptystate-Default-icon_svg__b-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__b-${id}`}>
           <stop stopColor='#767676' offset='0%' />
           <stop stopColor='#929292' offset='100%' />
         </linearGradient>
@@ -30,8 +28,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='89.948%'
           x2='44.204%'
           y2='39.998%'
-          id={`emptystate-Default-icon_svg__c-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__c-${id}`}>
           <stop stopColor='#969696' offset='0%' />
           <stop stopColor='#E8E8E8' offset='100%' />
         </linearGradient>
@@ -40,8 +37,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='-11.496%'
           x2='57.391%'
           y2='56.197%'
-          id={`emptystate-Default-icon_svg__d-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__d-${id}`}>
           <stop stopColor='#393939' offset='0%' />
           <stop stopColor='#525252' offset='99%' />
         </linearGradient>
@@ -50,8 +46,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='115.2%'
           x2='56.521%'
           y2='40.489%'
-          id={`emptystate-Default-icon_svg__e-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__e-${id}`}>
           <stop stopColor='#9C9C9C' offset='0%' />
           <stop stopColor='#C5C5C5' offset='100%' />
         </linearGradient>
@@ -60,8 +55,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='38.922%'
           x2='61.212%'
           y2='78.234%'
-          id={`emptystate-Default-icon_svg__f-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__f-${id}`}>
           <stop stopColor='#8A8A8A' offset='0%' />
           <stop stopColor='#B5B5B5' offset='100%' />
         </linearGradient>
@@ -70,8 +64,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='31.727%'
           x2='41.531%'
           y2='71.327%'
-          id={`emptystate-Default-icon_svg__g-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__g-${id}`}>
           <stop stopColor='#A4A4A4' offset='0%' />
           <stop stopColor='#BEBEBE' offset='100%' />
         </linearGradient>
@@ -80,8 +73,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='69.394%'
           x2='45.796%'
           y2='53.639%'
-          id={`emptystate-Default-icon_svg__h-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__h-${id}`}>
           <stop stopColor='#C2C2C2' offset='0%' />
           <stop stopColor='#E8E8E8' offset='100%' />
         </linearGradient>
@@ -90,8 +82,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='64.634%'
           x2='31.337%'
           y2='27.889%'
-          id={`emptystate-Default-icon_svg__i-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__i-${id}`}>
           <stop stopColor='#C6C6C6' offset='0%' />
           <stop stopColor='#E8E8E8' offset='100%' />
         </linearGradient>
@@ -100,8 +91,7 @@ export const SvgEmptystateDefaultIcon = (props) => {
           y1='114.244%'
           x2='43.81%'
           y2='17.782%'
-          id={`emptystate-Default-icon_svg__j-${id}`}
-        >
+          id={`emptystate-Default-icon_svg__j-${id}`}>
           <stop stopColor='#B7B7B7' offset='0%' />
           <stop stopColor='#EEE' offset='100%' />
         </linearGradient>

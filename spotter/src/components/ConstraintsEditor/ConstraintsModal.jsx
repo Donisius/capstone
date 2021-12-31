@@ -52,7 +52,7 @@ export const ConstraintsModal = ({
     const dateAdded = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
     if (constraint) {
       setConstraints(
-        constraints.map((c) =>
+        constraints.map(c =>
           c === constraint
             ? {
                 ...constraint,
@@ -85,16 +85,14 @@ export const ConstraintsModal = ({
       onClose={() => {
         handleClose();
       }}
-      size='lg'
-    >
+      size='lg'>
       <ModalHeader>
         <h3>Add/Edit constraint</h3>
         <Button
           className='add-restriction-btn'
           kind='ghost'
           renderIcon={Add}
-          onClick={() => handleAddRestriction()}
-        >
+          onClick={() => handleAddRestriction()}>
           Add another restriction
         </Button>
       </ModalHeader>
@@ -102,7 +100,7 @@ export const ConstraintsModal = ({
         <TextInput
           labelText='Constraint name'
           placeholder='What exercise is this for?'
-          onBlur={(ev) => {
+          onBlur={ev => {
             setConstraintName(ev.target.value);
           }}
           style={{ width: '30%', marginBottom: '2rem' }}
@@ -113,7 +111,7 @@ export const ConstraintsModal = ({
             <div style={{ marginRight: '0.3rem' }}>
               <ComboBox
                 light
-                onChange={(ev) => {
+                onChange={ev => {
                   setRestrictions(
                     restrictions.map((r, j) =>
                       i === j
@@ -131,7 +129,7 @@ export const ConstraintsModal = ({
             <Dropdown
               style={{ width: '15rem', marginRight: '0.3rem' }}
               id={`dropdown-${counter++}`}
-              onChange={(ev) => {
+              onChange={ev => {
                 setRestrictions(
                   restrictions.map((r, j) =>
                     i === j ? { ...restriction, operation: ev.selectedItem } : r
@@ -140,13 +138,12 @@ export const ConstraintsModal = ({
               }}
               placeholder='Operation'
               selectedItem={restrictions[i].operation}
-              items={['distance from', 'angle formed with']}
-            ></Dropdown>
+              items={['distance from', 'angle formed with']}></Dropdown>
             <div style={{ marginRight: '0.3rem' }}>
               <ComboBox
                 light
                 style={{ marginRight: '0.3rem' }}
-                onChange={(ev) => {
+                onChange={ev => {
                   setRestrictions(
                     restrictions.map((r, j) =>
                       i === j
@@ -164,7 +161,7 @@ export const ConstraintsModal = ({
             <Dropdown
               style={{ width: '6rem', marginRight: '0.3rem' }}
               id={`dropdown-${counter++}`}
-              onChange={(ev) => {
+              onChange={ev => {
                 setRestrictions(
                   restrictions.map((r, j) =>
                     i === j ? { ...restriction, equality: ev.selectedItem } : r
@@ -173,11 +170,10 @@ export const ConstraintsModal = ({
               }}
               placeholder='Equality'
               selectedItem={restrictions[i].equality}
-              items={['>', '>=', '<', '<=', '=']}
-            ></Dropdown>
+              items={['>', '>=', '<', '<=', '=']}></Dropdown>
             <TextInput
               placeholder='Result'
-              onBlur={(ev) => {
+              onBlur={ev => {
                 setRestrictions(
                   restrictions.map((r, j) =>
                     i === j ? { ...restriction, result: ev.target.value } : r
@@ -204,16 +200,14 @@ export const ConstraintsModal = ({
           kind='secondary'
           onClick={() => {
             handleClose();
-          }}
-        >
+          }}>
           Cancel
         </Button>
         <Button
           kind='primary'
           onClick={() => {
             handleSaveConstraint();
-          }}
-        >
+          }}>
           Save
         </Button>
       </ModalFooter>
