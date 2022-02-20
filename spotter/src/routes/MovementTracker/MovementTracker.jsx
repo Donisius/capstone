@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
-import { Toggle, Loading } from 'carbon-components-react';
+import {
+  FilterableMultiSelect,
+  Toggle,
+  Loading,
+} from 'carbon-components-react';
 
 import { areCoordsValid } from '../../utils/areCoordsValid';
 import './MovementTracker.css';
@@ -79,6 +83,8 @@ export const MovementTracker = ({ constraints }) => {
   const [isTracking, setIsTracking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [activeConstraints, setActiveConstraints] = useState();
+
   // This runs when this component initializes.
   useEffect(() => {
     const getUserMedia = async () => {
@@ -99,7 +105,7 @@ export const MovementTracker = ({ constraints }) => {
     getUserMedia();
 
     pose.onResults(results => {
-      onResults(results, constraints, canvasRef.current);
+      onResults(results, activeConstraints, canvasRef.current);
     });
 
     const cam = new Camera(videoRef.current, {
@@ -146,12 +152,24 @@ export const MovementTracker = ({ constraints }) => {
 
     pose.reset();
     pose.onResults(results => {
-      onResults(results, constraints, canvasRef.current);
+      onResults(results, activeConstraints, canvasRef.current);
     });
-  }, [constraints]);
+  }, [activeConstraints]);
 
   return (
     <div className='wrapper'>
+      <div className='constraints-dropdown'>
+        <FilterableMultiSelect
+          id='constraints'
+          titleText='Choose active constraints'
+          helperText='These are constraints which will be active while tracking'
+          initialSelectedItems={activeConstraints}
+          placeholder='Search for a constraint'
+          items={constraints.map((constraint, id) => ({ ...constraint, id }))}
+          itemToString={item => (item ? item.exercise : '')}
+          onChange={ev => setActiveConstraints(ev.selectedItems)}
+        />
+      </div>
       <Toggle
         className='tracking-toggle'
         labelText='Tracking'

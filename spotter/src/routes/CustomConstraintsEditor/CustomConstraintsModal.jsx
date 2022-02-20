@@ -16,7 +16,7 @@ import {
   Add16 as Add,
 } from '@carbon/icons-react';
 
-import './ConstraintsModal.css';
+import './CustomConstraintsModal.css';
 import { generateMeetsRestrictionsFunc } from '../../utils/generateMeetsRestrictionsFunc';
 
 const items = Object.keys(POSE_LANDMARKS);
@@ -24,7 +24,7 @@ const items = Object.keys(POSE_LANDMARKS);
 // Used to generate unique ids.
 let counter = 0;
 
-export const ConstraintsModal = ({
+export const CustomConstraintsModal = ({
   isOpen,
   setIsModalOpen,
   constraint,
@@ -73,6 +73,7 @@ export const ConstraintsModal = ({
       setConstraints([
         ...constraints,
         {
+          type: 'custom',
           exercise: constraintName,
           // Needed for editing in the future.
           restrictions,

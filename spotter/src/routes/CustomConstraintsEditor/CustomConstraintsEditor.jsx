@@ -19,9 +19,9 @@ import {
 } from 'carbon-components-react';
 import { Delete16 as Delete, Edit16 as Edit } from '@carbon/icons-react';
 
-import { ConstraintsModal } from './ConstraintsModal';
+import { CustomConstraintsModal } from './CustomConstraintsModal';
 import { SvgEmptystateDefaultIcon } from '../../static/EmptyStateDefaultIcon';
-import './ConstraintsEditor.css';
+import './CustomConstraintsEditor.css';
 
 const headers = [
   {
@@ -38,38 +38,41 @@ const headers = [
   },
 ];
 
-export const ConstraintsEditor = ({ constraints, setConstraints }) => {
+export const CustomConstraintsEditor = ({ constraints, setConstraints }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedConstraint, setSelectedConstraint] = useState(null);
 
   return (
     <>
-      <ConstraintsModal
+      <CustomConstraintsModal
         isOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         constraint={selectedConstraint}
         constraints={constraints}
         setConstraints={setConstraints}
-        setSelectedConstraint={setSelectedConstraint}></ConstraintsModal>
+        setSelectedConstraint={setSelectedConstraint}
+      />
       <div className='wrapper'>
         <DataTable
-          rows={constraints.map(constraint => ({
-            id: constraint.exercise,
-            exercise: constraint.exercise,
-            dateAdded: constraint.dateAdded,
-            edit: (
-              <Button
-                onClick={() => {
-                  setSelectedConstraint(constraint);
-                  setIsModalOpen(true);
-                }}
-                hasIconOnly
-                renderIcon={Edit}
-                kind='ghost'
-                iconDescription='Edit constraint'
-              />
-            ),
-          }))}
+          rows={constraints
+            .filter(constraint => constraint.type === 'custom')
+            .map(constraint => ({
+              id: constraint.exercise,
+              exercise: constraint.exercise,
+              dateAdded: constraint.dateAdded,
+              edit: (
+                <Button
+                  onClick={() => {
+                    setSelectedConstraint(constraint);
+                    setIsModalOpen(true);
+                  }}
+                  hasIconOnly
+                  renderIcon={Edit}
+                  kind='ghost'
+                  iconDescription='Edit constraint'
+                />
+              ),
+            }))}
           headers={headers}>
           {({
             rows,
@@ -89,7 +92,7 @@ export const ConstraintsEditor = ({ constraints, setConstraints }) => {
             return (
               <TableContainer
                 style={{ width: '100%' }}
-                title='Constraints'
+                title='Custom constraints'
                 {...getTableContainerProps()}>
                 <TableToolbar {...getToolbarProps()}>
                   <TableBatchActions {...batchActionProps}>
