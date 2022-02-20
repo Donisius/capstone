@@ -17,6 +17,7 @@ import {
 } from '@carbon/icons-react';
 
 import './ConstraintsModal.css';
+import { generateMeetsRestrictionsFunc } from '../../utils/generateMeetsRestrictionsFunc';
 
 const items = Object.keys(POSE_LANDMARKS);
 
@@ -35,7 +36,7 @@ export const ConstraintsModal = ({
   const [constraintName, setConstraintName] = useState('');
 
   useEffect(() => {
-    if (constraint) {
+    if (constraint && constraint.type === 'custom') {
       setRestrictions(constraint.restrictions);
       setConstraintName(constraint.exercise);
     }
@@ -50,23 +51,34 @@ export const ConstraintsModal = ({
 
   const handleSaveConstraint = () => {
     const dateAdded = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
-    if (constraint) {
+    // Constraint was given, so update the existing constraint.
+    if (constraint && constraint.type === 'custom') {
       setConstraints(
         constraints.map(c =>
           c === constraint
             ? {
                 ...constraint,
+                type: 'custom',
                 exercise: constraintName,
+                // Needed for editing in the future.
                 restrictions,
+                meetsRestrictions: generateMeetsRestrictionsFunc(restrictions),
                 dateAdded,
               }
             : c
         )
       );
+      // Constraint was not given, so add a new constraint.
     } else {
       setConstraints([
         ...constraints,
-        { exercise: constraintName, restrictions, dateAdded },
+        {
+          exercise: constraintName,
+          // Needed for editing in the future.
+          restrictions,
+          meetsRestrictions: generateMeetsRestrictionsFunc(restrictions),
+          dateAdded,
+        },
       ]);
     }
     handleClose();
