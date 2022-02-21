@@ -100,7 +100,18 @@ export const CustomConstraintsEditor = ({ constraints, setConstraints }) => {
                       tabIndex={
                         batchActionProps.shouldShowBatchActions ? 0 : -1
                       }
-                      renderIcon={Delete}>
+                      renderIcon={Delete}
+                      onClick={() => {
+                        setConstraints(
+                          constraints.filter(
+                            constraint =>
+                              constraint.type === 'core' ||
+                              !selectedRows
+                                .map(row => row.id)
+                                .includes(constraint.exercise)
+                          )
+                        );
+                      }}>
                       Delete
                     </TableBatchAction>
                   </TableBatchActions>

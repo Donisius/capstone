@@ -4,6 +4,7 @@ import { Camera } from '@mediapipe/camera_utils';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import {
   FilterableMultiSelect,
+  Tag,
   Toggle,
   Loading,
 } from 'carbon-components-react';
@@ -83,7 +84,7 @@ export const MovementTracker = ({ constraints }) => {
   const [isTracking, setIsTracking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [activeConstraints, setActiveConstraints] = useState();
+  const [activeConstraints, setActiveConstraints] = useState([]);
 
   // This runs when this component initializes.
   useEffect(() => {
@@ -158,12 +159,20 @@ export const MovementTracker = ({ constraints }) => {
 
   return (
     <div className='wrapper'>
+      <div className='active-constraint-filters'>
+        {activeConstraints.map((constraint, i) => (
+          <Tag
+            id={`${constraint.exercise}-${i}`}
+            type={constraint.type === 'core' ? 'purple' : 'green'}>
+            {constraint.exercise}
+          </Tag>
+        ))}
+      </div>
       <div className='constraints-dropdown'>
         <FilterableMultiSelect
           id='constraints'
           titleText='Choose active constraints'
           helperText='These are constraints which will be active while tracking'
-          initialSelectedItems={activeConstraints}
           placeholder='Search for a constraint'
           items={constraints.map((constraint, id) => ({ ...constraint, id }))}
           itemToString={item => (item ? item.exercise : '')}
