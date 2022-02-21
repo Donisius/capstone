@@ -118,6 +118,9 @@ export const CustomConstraintsModal = ({
           }}
           style={{ width: '30%', marginBottom: '2rem' }}
           id={`name-${counter++}`}
+          defaultValue={
+            constraint && constraint.exercise ? constraint.exercise : ''
+          }
         />
         {restrictions.map((restriction, i) => (
           <div className='restriction' key={`restriction-${counter++}`}>
@@ -186,6 +189,7 @@ export const CustomConstraintsModal = ({
               items={['>', '>=', '<', '<=', '=']}></Dropdown>
             <TextInput
               placeholder='Result'
+              id={`result-input-${counter++}`}
               onBlur={ev => {
                 setRestrictions(
                   restrictions.map((r, j) =>
@@ -193,8 +197,11 @@ export const CustomConstraintsModal = ({
                   )
                 );
               }}
-              value={restrictions[i].result}
-              id={`result-${counter++}`}
+              defaultValue={
+                restrictions[i].result !== undefined
+                  ? restrictions[i].result
+                  : ''
+              }
             />
             <Button
               renderIcon={Delete}
