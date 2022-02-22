@@ -11,6 +11,7 @@ import {
 
 import { areCoordsValid } from '../../utils/areCoordsValid';
 import './MovementTracker.css';
+import { downloadFile } from '../../utils/file-utils';
 
 const pose = new Pose({
   locateFile: file => {
@@ -80,11 +81,18 @@ const onResults = (results, constraints, canvasElement) => {
 export const MovementTracker = ({ constraints }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const recordingRef = useRef(null);
+
   const [camera, setCamera] = useState(null);
+  const [recorder, setRecorder] = useState(null);
   const [isTracking, setIsTracking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
 
   const [activeConstraints, setActiveConstraints] = useState([]);
+
+  // Used for recording purposes.
+  let videoChunks = [];
 
   // This runs when this component initializes.
   useEffect(() => {
@@ -105,6 +113,27 @@ export const MovementTracker = ({ constraints }) => {
 
     getUserMedia();
 
+    // Capture canvas stream for recording.
+    const canvasStream = canvasRef.current.captureStream(30);
+    const mediaRecorder = new MediaRecorder(canvasStream);
+
+    mediaRecorder.onstart = () => {
+      videoChunks = [];
+    };
+
+    mediaRecorder.ondataavailable = e => {
+      videoChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = e => {
+      const blob = new Blob(videoChunks, { type: 'video/mp4' });
+      // Reset.
+      videoChunks = [];
+      downloadFile(blob, `recording-${new Date().getTime()}`);
+    };
+
+    setRecorder(mediaRecorder);
+
     pose.onResults(results => {
       onResults(results, activeConstraints, canvasRef.current);
     });
@@ -121,6 +150,7 @@ export const MovementTracker = ({ constraints }) => {
 
     return () => {
       camera?.stop();
+      recorder?.stop();
       pose?.close();
     };
   }, []);
@@ -145,6 +175,18 @@ export const MovementTracker = ({ constraints }) => {
       }, 1000);
     }
   }, [isTracking]);
+
+  useEffect(() => {
+    if (!recorder) {
+      return;
+    }
+
+    if (isRecording) {
+      recorder.start();
+    } else {
+      recorder.stop();
+    }
+  }, [isRecording]);
 
   useEffect(() => {
     if (!pose) {
@@ -209,6 +251,19 @@ export const MovementTracker = ({ constraints }) => {
           height: DISPLAY_SETTINGS.height,
           width: DISPLAY_SETTINGS.width,
         }}></canvas>
+      {isTracking && (
+        <Toggle
+          className='tracking-toggle'
+          labelText='Record'
+          size='md'
+          labelA='Not recording'
+          labelB='Recording'
+          id='recording-toggle'
+          onChange={ev => {
+            setIsRecording(ev.target.checked);
+          }}
+        />
+      )}
     </div>
   );
 };
