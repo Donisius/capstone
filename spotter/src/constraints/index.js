@@ -4,6 +4,7 @@ import { plank } from './plank';
 import { pushUps } from './push-ups';
 import { squats } from './squats';
 import { wallSit } from './wall-sit';
+import { sitUps } from './situps';
 
 export const allCoreConstraints = [
   lateralRaise,
@@ -12,4 +13,5 @@ export const allCoreConstraints = [
   pushUps,
   squats,
   wallSit,
+  sitUps
 ];
