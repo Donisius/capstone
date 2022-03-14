@@ -13,5 +13,5 @@ export const allCoreConstraints = [
   pushUps,
   squats,
   wallSit,
-  sitUps
+  sitUps,
 ];
