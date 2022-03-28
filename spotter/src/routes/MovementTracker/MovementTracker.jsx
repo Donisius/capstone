@@ -9,6 +9,7 @@ import {
   Loading,
 } from 'carbon-components-react';
 
+import { RecordingButton } from '../../components/RecordingButton';
 import { areCoordsValid } from '../../utils/areCoordsValid';
 import './MovementTracker.css';
 import { downloadFile } from '../../utils/file-utils';
@@ -252,17 +253,18 @@ export const MovementTracker = ({ constraints }) => {
           width: DISPLAY_SETTINGS.width,
         }}></canvas>
       {isTracking && (
-        <Toggle
-          className='tracking-toggle'
-          labelText='Record'
-          size='md'
-          labelA='Not recording'
-          labelB='Recording'
-          id='recording-toggle'
-          onChange={ev => {
-            setIsRecording(ev.target.checked);
+        <div
+          style={{
+            height: '140px',
+            width: DISPLAY_SETTINGS.width,
+            backgroundColor: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
+          onClick={() => setIsRecording(!isRecording)}>
+          <RecordingButton isActive={isRecording} />
+        </div>
       )}
     </div>
   );
