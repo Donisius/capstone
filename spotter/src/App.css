@@ -10,6 +10,8 @@
   flex-direction: column;
 }
 
-.title {
-  margin-bottom: 2rem;
+.spotter-logo {
+  width: 300px;
+  height: 300px;
+  margin-bottom: -40px;
 }

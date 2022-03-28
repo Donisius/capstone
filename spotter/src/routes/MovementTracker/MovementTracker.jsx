@@ -61,7 +61,7 @@ const onResults = (results, constraints, canvasElement) => {
 
   canvasCtx.globalCompositeOperation = 'source-over';
   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-    color: '#3ddbd9',
+    color: '#9e1919',
     lineWidth: 3,
   });
 
@@ -82,7 +82,6 @@ const onResults = (results, constraints, canvasElement) => {
 export const MovementTracker = ({ constraints }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const recordingRef = useRef(null);
 
   const [camera, setCamera] = useState(null);
   const [recorder, setRecorder] = useState(null);
@@ -172,7 +171,8 @@ export const MovementTracker = ({ constraints }) => {
         // Reset canvas.
         canvasRef.current
           .getContext('2d')
-          .clearRect(0, 0, DISPLAY_SETTINGS.width, DISPLAY_SETTINGS.height);
+          .clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        canvasRef.current.beginPath();
       }, 1000);
     }
   }, [isTracking]);
