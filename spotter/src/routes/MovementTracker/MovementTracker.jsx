@@ -167,7 +167,7 @@ export const MovementTracker = ({ constraints }) => {
           input: controls.InputImage,
           size: controls.Rectangle
         ) => {
-          console.log('onFrame');
+          // console.log('onFrame');
           await pose.send({ image: input });
         },
       }),
