@@ -15,5 +15,9 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.1.4",
     "prettier": "2.5.1"
+  },
+  "dependencies": {
+    "@mediapipe/control_utils": "^0.6.1629159505",
+    "@mediapipe/control_utils_3d": "^0.3.1635987963"
   }
 }
