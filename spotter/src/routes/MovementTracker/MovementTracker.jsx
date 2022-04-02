@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose';
-import { Camera } from '@mediapipe/camera_utils';
+// import { Camera } from '@mediapipe/camera_utils';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
+import * as controls from '@mediapipe/control_utils';
 import {
   FilterableMultiSelect,
   Tag,
@@ -12,6 +13,8 @@ import {
 import { areCoordsValid } from '../../utils/areCoordsValid';
 import './MovementTracker.css';
 import { downloadFile } from '../../utils/file-utils';
+
+const fpsControl = new controls.FPS(); // For fps Box
 
 const pose = new Pose({
   locateFile: file => {
@@ -40,8 +43,10 @@ const onResults = (results, constraints, canvasElement) => {
     return;
   }
 
-  const canvasCtx = canvasElement.getContext('2d');
+  // Update Framerate
+  fpsControl.tick();
 
+  const canvasCtx = canvasElement.getContext('2d');
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
@@ -96,22 +101,23 @@ export const MovementTracker = ({ constraints }) => {
 
   // This runs when this component initializes.
   useEffect(() => {
-    const getUserMedia = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        DISPLAY_SETTINGS = stream.getTracks()[0].getSettings();
-        canvasRef.current.width = DISPLAY_SETTINGS.width;
-        canvasRef.current.height = DISPLAY_SETTINGS.height;
-        videoRef.current.srcObject = stream;
-        stream.getTracks()[0].stop();
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    // const getUserMedia = async () => {
+    // try {
+    // const stream = await navigator.mediaDevices.getUserMedia({
+    //   video: true,
+    // });
+    // DISPLAY_SETTINGS = stream.getTracks()[0].getSettings();
+    canvasRef.current.width = DISPLAY_SETTINGS.width;
+    canvasRef.current.height = DISPLAY_SETTINGS.height;
+    // videoRef.current.srcObject = stream;
+    //stream.getTracks()[0].stop();
 
-    getUserMedia();
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    // };
+
+    // getUserMedia();
 
     // Capture canvas stream for recording.
     const canvasStream = canvasRef.current.captureStream(30);
@@ -138,36 +144,55 @@ export const MovementTracker = ({ constraints }) => {
       onResults(results, activeConstraints, canvasRef.current);
     });
 
-    const cam = new Camera(videoRef.current, {
-      onFrame: async () => {
-        await pose.send({ image: videoRef.current });
-      },
-      width: DISPLAY_SETTINGS.width,
-      height: DISPLAY_SETTINGS.height,
-    });
+    // const cam = new Camera(videoRef.current, {
+    //   onFrame: async () => {
+    //     await pose.send({ image: videoRef.current });
+    //   },
+    //   width: DISPLAY_SETTINGS.width,
+    //   height: DISPLAY_SETTINGS.height,
+    // });
 
-    setCamera(cam);
+    //setCamera(cam);
+
+    const sp = document.getElementsByClassName('source-panel')[0];
+    const cp = new controls.ControlPanel(sp, {
+      // selfieMode: true, // Panel option to flip source image
+    }).add([
+      fpsControl,
+      new controls.SourcePicker({
+        onSourceChanged: () => {
+          pose.reset();
+        },
+        onFrame: async (
+          input: controls.InputImage,
+          size: controls.Rectangle
+        ) => {
+          console.log('onFrame');
+          await pose.send({ image: input });
+        },
+      }),
+    ]);
 
     return () => {
-      camera?.stop();
+      //camera?.stop();
       recorder?.stop();
       pose?.close();
     };
   }, []);
 
   useEffect(() => {
-    if (!camera) {
-      return;
-    }
+    // if (!camera) {
+    //   return;
+    // }
 
     if (isTracking && !isLoading) {
-      setIsLoading(true);
-      camera.start().then(() => {
-        setIsLoading(false);
-      });
+      // setIsLoading(true);
+      // camera.start().then(() => {
+      //   setIsLoading(false);
+      // });
     } else {
       setTimeout(() => {
-        camera.stop();
+        // camera.stop();
         // Reset canvas.
         canvasRef.current
           .getContext('2d')
@@ -221,9 +246,12 @@ export const MovementTracker = ({ constraints }) => {
           onChange={ev => setActiveConstraints(ev.selectedItems)}
         />
       </div>
+
+      <div className='source-panel'></div>
+
       <Toggle
         className='tracking-toggle'
-        labelText='Tracking'
+        labelText='Upload/Tracking'
         size='md'
         labelA='Off'
         labelB='On'
