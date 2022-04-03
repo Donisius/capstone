@@ -8,56 +8,35 @@ export const sitUps = {
     // problem occurs when situp is being performed (maybe remove shoulder and hands slope flat constraint?)
 
     let correctForm = true;
-
-    //CONSIDER CHANGING SLOPES TO PERCENT DIFF VALUES FOR SAME COORDINATES
-
-    // slope with hip and feet on both right and left feet
-    let RfeetHipsSlope = slopeBetweenTwoPoints(30, 24, 'xy', coords);
-    let LfeetHipsSlope = slopeBetweenTwoPoints(29, 23, 'xy', coords);
-    // 10% discrepancy
-    if (
-      RfeetHipsSlope > 0.3 ||
-      RfeetHipsSlope < -0.3 ||
-      LfeetHipsSlope > 0.3 ||
-      RfeetHipsSlope < -0.3
-    ) {
-      correctForm = false;
-      console.log('feet and hips not on same line');
-    }
+    let tol = 25; // 25% tolerance
 
     let shoulderSlopeZ = slopeBetweenTwoPoints(12, 11, 'zy', coords);
-    // 30% discrepancy
-    // tested lower discrepancies however it was too easy/sensitive to trigger false for correct form
-    if (shoulderSlopeZ > 0.3 || shoulderSlopeZ < -0.3) {
-      correctForm = false;
-      console.log('Shoulder not straight');
-    }
-
     let kneeSlopeZ = slopeBetweenTwoPoints(26, 25, 'zy', coords);
-    // 30% discrepancy
-    if (kneeSlopeZ > 0.3 || kneeSlopeZ < -0.3) {
+    let feetSlopeZ = slopeBetweenTwoPoints(31, 32, 'zy', coords);
+    let hipsSlopeZ = slopeBetweenTwoPoints(23, 24, 'zy', coords);
+
+    // hips and shoulders similar slope
+    let shouldersHipDiff = percentDifference(shoulderSlopeZ, hipsSlopeZ);
+
+    // hips and knees similar slope
+    let hipsFeetDiff = percentDifference(feetSlopeZ, hipsSlopeZ);
+
+    // knees feet similar slope
+    let kneesFeetDiff = percentDifference(feetSlopeZ, kneeSlopeZ);
+
+    if (shouldersHipDiff >= tol) {
       correctForm = false;
-      console.log('knees not straight');
+      console.log('shoulders and hips not aligned');
     }
 
-    // let RlegTriangle = isIsosceles(26, 24, 30, coords);
-    // let LlegTriangle = isIsosceles(25, 23, 29, coords);
-
-    // if (!RlegTriangle && !LlegTriangle) {
-    //     correctForm = false;
-    //     console.log("feet knees and hips doesn't create triangle");
-    // }
-
-    // Isosceles triangle seemed to not be working,
-    // will try simply having the knees y pos to be greater than hips and feet
-    // knees: L25, R26, feet (heels) : L29, R30, hips: L23, R24
-
-    if (coords[25].y <= coords[29].y || coords[25].y <= coords[23].y) {
+    if (hipsFeetDiff >= tol) {
       correctForm = false;
+      console.log('knees and hips not aligned');
     }
 
-    if (coords[26].y <= coords[30].y || coords[26].y <= coords[24].y) {
+    if (kneesFeetDiff >= tol) {
       correctForm = false;
+      console.log('knees and feet not aligned');
     }
 
     return correctForm;
@@ -80,28 +59,6 @@ function distanceBetweenTwoPoints(pointOneIndex, pointTwoIndex, coords) {
   let distance = Math.sqrt(xDiffSquared + yDiffSquared);
 
   return distance;
-}
-
-// an isosceles triangle has 2 sides of equal length and 1 unequal
-// for a situp however exact sizes are unlikely therefore will add a 20% discrepancy
-function isIsosceles(knee, baseOne, baseTwo, coords) {
-  let distBaseOneToTop = distanceBetweenTwoPoints(baseOne, knee, coords);
-  let distBaseTwoToTop = distanceBetweenTwoPoints(baseTwo, knee, coords);
-  let distBases = distanceBetweenTwoPoints(baseOne, baseTwo, coords);
-
-  let percentDiff = percentDifference(distBaseOneToTop, distBaseTwoToTop);
-
-  let isIso = false;
-
-  if (
-    percentDiff < 20 &&
-    distBases !== distBaseOneToTop &&
-    distBases !== distBaseTwoToTop
-  ) {
-    isIso = true;
-  }
-
-  return isIso;
 }
 
 // pointOne index is the first landmark
