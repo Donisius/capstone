@@ -5,6 +5,7 @@ import { CustomConstraintsEditor } from './routes/CustomConstraintsEditor/Custom
 import { MovementTracker } from './routes/MovementTracker/MovementTracker';
 import { allCoreConstraints } from './constraints';
 import './App.css';
+import spotterLogo from './assets/spotter-logo.png';
 
 const App = () => {
   const [constraints, setConstraints] = useState([]);
@@ -17,7 +18,7 @@ const App = () => {
 
   return (
     <div className='App'>
-      <h1 className='title'>Spotter</h1>
+      <img className='spotter-logo' src={spotterLogo} alt='spotter' />
       <Tabs style={{ width: 'auto' }}>
         <Tab id='tracking' label='Track movements'>
           <MovementTracker constraints={constraints} />

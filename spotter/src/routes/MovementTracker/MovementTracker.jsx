@@ -9,6 +9,7 @@ import {
   Loading,
 } from 'carbon-components-react';
 
+import { RecordingButton } from '../../components/RecordingButton';
 import { areCoordsValid } from '../../utils/areCoordsValid';
 import './MovementTracker.css';
 import { downloadFile } from '../../utils/file-utils';
@@ -60,7 +61,7 @@ const onResults = (results, constraints, canvasElement) => {
 
   canvasCtx.globalCompositeOperation = 'source-over';
   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-    color: '#3ddbd9',
+    color: '#9e1919',
     lineWidth: 3,
   });
 
@@ -81,7 +82,6 @@ const onResults = (results, constraints, canvasElement) => {
 export const MovementTracker = ({ constraints }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const recordingRef = useRef(null);
 
   const [camera, setCamera] = useState(null);
   const [recorder, setRecorder] = useState(null);
@@ -171,7 +171,8 @@ export const MovementTracker = ({ constraints }) => {
         // Reset canvas.
         canvasRef.current
           .getContext('2d')
-          .clearRect(0, 0, DISPLAY_SETTINGS.width, DISPLAY_SETTINGS.height);
+          .clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        canvasRef.current.beginPath();
       }, 1000);
     }
   }, [isTracking]);
@@ -252,17 +253,18 @@ export const MovementTracker = ({ constraints }) => {
           width: DISPLAY_SETTINGS.width,
         }}></canvas>
       {isTracking && (
-        <Toggle
-          className='tracking-toggle'
-          labelText='Record'
-          size='md'
-          labelA='Not recording'
-          labelB='Recording'
-          id='recording-toggle'
-          onChange={ev => {
-            setIsRecording(ev.target.checked);
+        <div
+          style={{
+            height: '140px',
+            width: DISPLAY_SETTINGS.width,
+            backgroundColor: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
+          onClick={() => setIsRecording(!isRecording)}>
+          <RecordingButton isActive={isRecording} />
+        </div>
       )}
     </div>
   );
