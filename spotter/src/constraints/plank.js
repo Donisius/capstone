@@ -28,17 +28,22 @@ export const plank = {
     }
 
     // Elbow-Shoulders
-    let elbowShoulderSlope = Math.abs(
+    let elbowShoulderSlopeAngle = Math.abs(
       slopeAngle(elbow.x, elbow.y, shoulder.x, shoulder.y)
     );
-    if (elbowShoulderSlope > 105 || elbowShoulderSlope < 75) {
+    if (elbowShoulderSlopeAngle > 105 || elbowShoulderSlopeAngle < 75) {
       // Ideally smaller range but this pair of coords are prone to inaccuracies here.
       return false;
     }
 
     // Shoulder-Hips
-    let hipShoulderSlope = -slopeAngle(shoulder.x, shoulder.y, hip.x, hip.y);
-    if (hipShoulderSlope > 10 || hipShoulderSlope < -12) {
+    let hipShoulderSlopeAngle = -slopeAngle(
+      shoulder.x,
+      shoulder.y,
+      hip.x,
+      hip.y
+    );
+    if (hipShoulderSlopeAngle > 10 || hipShoulderSlopeAngle < -12) {
       return false;
     }
 
