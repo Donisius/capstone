@@ -1,3 +1,5 @@
+import { dotProduct, getDistance, radToDegree } from './utils';
+
 export const wallSit = {
   type: 'core',
   exercise: 'Wall sit',
@@ -53,18 +55,6 @@ export const wallSit = {
       y: leftAnkle.y - leftKnee.y,
       z: leftAnkle.z - leftKnee.z,
     };
-
-    // helper functions
-    const radToDegree = angle => (angle * 180) / Math.PI;
-    const dotProduct = (coord1, coord2) =>
-      coord1.x * coord2.x + coord1.y * coord2.y + coord1.z * coord2.z;
-    const emptyCoord = { x: 0, y: 0, z: 0 };
-    const getDistance = (coord1, coord2 = emptyCoord) =>
-      Math.sqrt(
-        (coord1.x - coord2.x) ** 2 +
-          (coord1.y - coord2.y) ** 2 +
-          (coord1.z - coord2.z) ** 2
-      );
 
     // angles
     const rightShoulderKneeAngle = radToDegree(
