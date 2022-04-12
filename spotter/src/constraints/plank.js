@@ -32,7 +32,7 @@ export const plank = {
       slopeAngle(elbow.x, elbow.y, shoulder.x, shoulder.y)
     );
     if (elbowShoulderSlopeAngle > 105 || elbowShoulderSlopeAngle < 75) {
-      // Ideally smaller range but this pair of coords are prone to inaccuracies here.
+      // Ideally smaller range but this pair of coords is prone to inaccuracies here.
       return false;
     }
 
